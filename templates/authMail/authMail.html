@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Auth</title>
+</head>
+<body>
+<form method="POST">
+    {% csrf_token %}
+
+        {{ form_mail }}
+
+    <input type="submit" value="Send">
+</form>
+</body>
+</html>
