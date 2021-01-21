@@ -9,6 +9,7 @@ class CustomAbstractBaseUser(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=50, blank=True)
     last_name = models.CharField(max_length=50, blank=True)
     date_joined = models.DateTimeField(auto_now_add=True)
+    is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
 

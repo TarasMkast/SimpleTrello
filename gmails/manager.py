@@ -7,7 +7,6 @@ class ManagerAuthMail:
 
     def __init__(self, address_mail):
         self.address_mail = address_mail
-        self.password = None
         self.input_password = None
 
     def make_random_password(self, length=10,
@@ -17,11 +16,10 @@ class ManagerAuthMail:
         self.password = get_random_string(length, allowed_chars)
         return self.password
 
-    def send_email(self):
-        #address_mail = str(self.address_mail)
+    def send_email(self, password):
         res = sm(
             subject='Підтвердження пошти',
-            message='Код підтвердження пошти: ' + self.password,
+            message='Код підтвердження пошти: ' + password,
             from_email='',
             recipient_list=[self.address_mail],
             fail_silently=False
