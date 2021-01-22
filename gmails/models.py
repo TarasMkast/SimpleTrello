@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class SendPasswordMail(models.Model):
+class MailPassword(models.Model):
 
     send_mail = models.EmailField(blank=True, verbose_name='Електронна пошта')
     send_password = models.CharField(max_length=10, blank=True, verbose_name='Відправлений пароль')

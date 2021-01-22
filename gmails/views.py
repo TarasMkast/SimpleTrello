@@ -9,7 +9,7 @@ from gmails.manager import ManagerAuthMail
 from gmails.forms import (PasswordForm,
                           MailForm,
                           )
-from gmails.models import SendPasswordMail
+from gmails.models import MailPassword
 
 
 def send_email_view(request):
@@ -20,7 +20,7 @@ def send_email_view(request):
             manage = ManagerAuthMail(message)
             send_password = manage.make_random_password()
             manage.send_email(send_password)
-            db_send_password_mail = SendPasswordMail(send_mail=message, send_password=send_password)
+            db_send_password_mail = MailPassword(send_mail=message, send_password=send_password)
             db_send_password_mail.save()
         return redirect('verify')
     form = MailForm()
@@ -28,14 +28,14 @@ def send_email_view(request):
 
 
 def confirmation_view(request):
-    db_send_password_mail = SendPasswordMail.objects.values_list('send_password')
+    db_send_password_mail = MailPassword.objects.values_list('send_password')
     if request.method == 'POST':
         form = PasswordForm(request.POST)
         if form.is_valid():
             input_password = form.cleaned_data.get('form_password')
             for db in db_send_password_mail:
                 if input_password == db[0]:
-                    db_send_password_m = SendPasswordMail.objects.get(send_password=db[0])
+                    db_send_password_m = MailPassword.objects.get(send_password=db[0])
                     now = timezone.now() - timedelta(minutes=60)
                     if db_send_password_m.date > now:
                         db_send_password_m.input_password = db[0]

@@ -4,7 +4,7 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from users.manager import CustomUserManager
 
 
-class CustomAbstractBaseUser(AbstractBaseUser, PermissionsMixin):
+class CustomBaseUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(verbose_name='email address', unique=True)
     first_name = models.CharField(max_length=50, blank=True)
     last_name = models.CharField(max_length=50, blank=True)
