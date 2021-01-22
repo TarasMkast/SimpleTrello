@@ -1,15 +1,15 @@
+from datetime import timedelta
 from django.shortcuts import (render,
                               HttpResponse,
                               redirect,
                               )
+from django.utils import timezone
+
 from gmails.manager import ManagerAuthMail
 from gmails.forms import (PasswordForm,
                           MailForm,
                           )
 from gmails.models import SendPasswordMail
-from users.models import CustomAbstractBaseUser
-
-mass = []
 
 
 def send_email_view(request):
@@ -22,25 +22,27 @@ def send_email_view(request):
             manage.send_email(send_password)
             db_send_password_mail = SendPasswordMail(send_mail=message, send_password=send_password)
             db_send_password_mail.save()
-            print(send_password)
-            mass.append(db_send_password_mail)
         return redirect('verify')
     form = MailForm()
     return render(request, 'authMail/authMail.html', {'form_mail': form})
 
 
 def confirmation_view(request):
-    db_send_password_mail = mass[0]
+    db_send_password_mail = SendPasswordMail.objects.values_list('send_password')
     if request.method == 'POST':
         form = PasswordForm(request.POST)
         if form.is_valid():
             input_password = form.cleaned_data.get('form_password')
-            if input_password == db_send_password_mail.send_password:
-                db_send_password_mail.input_password = input_password
-                db_send_password_mail.is_verify = True
-                db_send_password_mail.save()
-                mass.clear()
-                return HttpResponse('Вітаємо, ви підтвердили вашу пошту!')
+            for db in db_send_password_mail:
+                if input_password == db[0]:
+                    db_send_password_m = SendPasswordMail.objects.get(send_password=db[0])
+                    now = timezone.now() - timedelta(minutes=60)
+                    if db_send_password_m.date > now:
+                        db_send_password_m.input_password = db[0]
+                        db_send_password_m.is_verify = True
+                        db_send_password_m.save()
+                        return HttpResponse('Вітаємо, ви підтвердили вашу пошту!')
+                    return HttpResponse('Час активація вийшов! Пошта не активована, спробуйте знову.')
             return HttpResponse('Код не вірний!')
     form = PasswordForm()
     return render(request, 'authMail/verifyMail.html', {'form_verify': form})
