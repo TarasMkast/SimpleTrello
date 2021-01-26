@@ -13,8 +13,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['0.0.0.0']
 
 
-# Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -111,7 +109,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 
-
+LOGIN_REDIRECT_URL = '/main/'
+LOGOUT_REDIRECT_URL = 'login'
 
 STATIC_URL = '/static/'
 
