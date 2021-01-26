@@ -30,7 +30,12 @@ INSTALLED_APPS = [
     'issue',
     'project',
     'users',
-    'gmails'
+    'gmails',
+
+
+    'rest_api.users_api',
+    'rest_api.issue_api',
+    'rest_api.project_api',
 ]
 
 MIDDLEWARE = [
