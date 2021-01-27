@@ -2,8 +2,12 @@ venv/
 __pycache__/
 .idea/
 gmails/__pycache__/
+gmails/migrations
 issue/__pycache__/
+issue/migrations
 project/__pycache__/
+project/migrations
 SimpleTrello/__pycache__/
 users/__pycache__/
+users/migrations
 db.sqlite3
