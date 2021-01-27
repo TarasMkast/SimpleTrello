@@ -1,32 +1,45 @@
 from django.http import HttpResponse
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
+from django.http import Http404
+from gmails.forms import PasswordForm
+from gmails.manager import ManagerAuthMail
+from gmails.models import MailPassword
 from users.forms import CustomUserCreationForm
-from django.contrib.auth.forms import UserCreationForm
-from django.views.generic.edit import FormView
+from users.models import User
 
 
-class RegisterFormView(FormView):
-    form_class = CustomUserCreationForm
-    success_url = "/login/"
-    template_name = "registration/register.html"
+def register(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            email = user.email
+            db_send_password_mail = MailPassword(send_mail=email)
+            manage = ManagerAuthMail(email)
+            send_password = manage.make_random_password()
+            manage.send_email(send_password)
+            db_send_password_mail.send_password = send_password
+            db_send_password_mail.save()
+            return redirect('users:verify')
+    form = CustomUserCreationForm()
+    return render(request, 'registration/register.html', {'form': form})
 
-    def form_valid(self, form):
-        print(form)
-        form.save()
-        return super(RegisterFormView, self).form_valid(form)
 
-    def form_invalid(self, form):
-        return super(RegisterFormView, self).form_invalid(form)
+def verify_mail(request):
+    if request.method == 'POST':
+        form = PasswordForm(request.POST)
+        if form.is_valid():
+            input_password = form.cleaned_data.get('form_password')
+            try:
+                mail_verify = MailPassword.objects.get(send_password=input_password)
+                user = User.objects.get(email=mail_verify.send_mail)
+                mail_verify.is_verify = True
+                user.is_active = True
+                user.save()
+                mail_verify.save()
 
-# def register(request):
-#     if request.method == 'POST':
-#         form = CustomUserCreationForm(request.POST)
-#         if form.is_valid():
-#             print("aaaaaaaaaaaaaaaaaaaaaa")
-#             print(form)
-#             user = form.save()
-#             auth_login(request, user)
-#             return HttpResponse('Done!')
-#     form = CustomUserCreationForm()
-#     return render(request, 'registration/base.html', {'form': form})
+            except:
+                raise Http404("Дані відсутні, поверніть назад на головну сторінку ")
+            return HttpResponse('Ви підтвердили пошту!')
+    form = PasswordForm()
+    return render(request, 'registration/verify.html', {'form_verify': form})
