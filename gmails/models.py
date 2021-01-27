@@ -4,11 +4,8 @@ from users.models import User
 
 
 class MailPassword(models.Model):
-    #user = models.OneToOneField(User, related_name='user_mail', on_delete=models.CASCADE,  primary_key=True)
     send_mail = models.EmailField(blank=True, verbose_name='Електронна пошта')
-    #uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     send_password = models.CharField(max_length=10, blank=True, verbose_name='Відправлений пароль')
-    # input_password = models.CharField(max_length=10, default='-', verbose_name='Отриманий пароль')
     is_verify = models.BooleanField(default=False, verbose_name='Статус підтвердження')
     date = models.DateTimeField(auto_now_add=True, verbose_name='Дата операції')
 
