@@ -14,7 +14,7 @@ SECRET_KEY = 'j#q@i9moh_y#k_)mvu#bu7t+e%zb466msu1y^b^wxx2zget_gx'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['0.0.0.0']
 
 
 # Application definition
@@ -26,12 +26,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
 
     'issue',
     'project',
     'users',
     'gmails'
 ]
+AUTH_USER_MODEL = 'users.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -121,7 +123,7 @@ EMAIL_HOST_USER = "uselessemailfortest@gmail.com"
 EMAIL_HOST_PASSWORD = "Qetuop78"
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 
