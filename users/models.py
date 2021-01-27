@@ -4,12 +4,13 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from users.manager import CustomUserManager
 
 
-class CustomAbstractBaseUser(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(verbose_name='email address', unique=True)
     first_name = models.CharField(max_length=50, blank=True)
     last_name = models.CharField(max_length=50, blank=True)
     date_joined = models.DateTimeField(auto_now_add=True)
-    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
 
     objects = CustomUserManager()
