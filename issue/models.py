@@ -16,6 +16,5 @@ class Issue(models.Model):
 
 
 class Image(models.Model):
-    img = models.ImageField(upload_to='/image',
-                            height_field=100, width_field=100)
-    issue = models.ForeignKey(Issue, on_delete=True, related_name='ImageRel')
+    image = models.ImageField(verbose_name='Зображення', height_field=100, width_field=100)
+    issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='ImageRel')
