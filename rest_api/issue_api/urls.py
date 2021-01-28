@@ -1,4 +1,7 @@
+from rest_framework.routers import DefaultRouter
+from rest_api.issue_api.views import IssueViewSet
 
-urlpatterns = [
 
-]
+router = DefaultRouter()
+router.register('issue', IssueViewSet, basename='issue')
+urlpatterns = router.urls
