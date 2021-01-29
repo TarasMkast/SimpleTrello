@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'crispy_forms',
 
     'issue',
@@ -33,7 +34,8 @@ INSTALLED_APPS = [
     'users',
     'gmails',
 
-
+    'rest_framework',
+    'rest_api',
     'rest_api.users_api',
     'rest_api.issue_api',
     'rest_api.project_api',
