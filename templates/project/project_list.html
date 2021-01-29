@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Project</title>
+</head>
+<body>
+
+<div>
+    {% if projects %}
+        <ul>
+        {% for project in projects %}
+            <li><a href="{%  url 'issue:project'  project.id %}">{{ project.name }}</a> </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+
+</body>
+
+</html>

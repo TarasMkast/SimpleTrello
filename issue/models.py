@@ -2,12 +2,20 @@ from django.db import models
 from users.models import User
 
 
+class StatusIssue(models.TextChoices):
+    TODO = 'TODO', 'TODO'
+    IN_PROGRESS = 'In progress', 'In progress'
+    TEST = 'TEST', 'Test'
+    DONE = "Done", "Done"
+
+
 class Issue(models.Model):
     name = models.CharField(max_length=50, verbose_name='Імя задачі')
-    descriptiom = models.CharField(max_length=300, verbose_name='Опис задачі')
-    status = models.CharField(max_length=30, verbose_name='Статус')
+    description = models.CharField(max_length=300, verbose_name='Опис задачі')
+    status = models.CharField(max_length=30, verbose_name='Статус', choices=StatusIssue.choices,
+                              default=StatusIssue.TODO)
     create_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата створення')
-    user = models.ManyToManyField(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Користувач')
 
     class Meta:
         verbose_name = 'Завдання'
