@@ -1,5 +1,6 @@
 from django import forms
-from issue.models import Issue, StatusIssue
+from issue.models import Issue
+from issue.utils import StatusIssue
 
 
 class IssueForm(forms.ModelForm):

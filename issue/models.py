@@ -1,12 +1,7 @@
 from django.db import models
 from users.models import User
-
-
-class StatusIssue(models.TextChoices):
-    TODO = 'TODO', 'TODO'
-    IN_PROGRESS = 'In progress', 'In progress'
-    TEST = 'TEST', 'Test'
-    DONE = "Done", "Done"
+from project.models import Project
+from issue.utils import StatusIssue
 
 
 class Issue(models.Model):
@@ -16,6 +11,7 @@ class Issue(models.Model):
                               default=StatusIssue.TODO)
     create_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата створення')
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Користувач')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, verbose_name='Проект')
 
     class Meta:
         verbose_name = 'Завдання'

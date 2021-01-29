@@ -9,7 +9,8 @@
     {% if issue_list %}
         <ul>
         {% for issue in issue_list %}
-            <li><a href="{%  url 'issue:issue_detail'  issue.id %}">{{ issue.name }}</a> </li>
+            <li> {{ issue.name }} </li>
+{#            <li><a href="{%  url 'issue:issue_detail'  issue.id %}">{{ issue.name }}</a> </li>#}
         {% endfor %}
         </ul>
     {% endif %}

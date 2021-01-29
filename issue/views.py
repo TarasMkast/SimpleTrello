@@ -4,7 +4,7 @@ from issue.models import Issue
 
 
 def catalog_issue(request, pk):
-    return render(request, 'issue/issue_list.html', {'issue_list': Issue.objects.filter(ImageRel=pk)})
+    return render(request, 'issue/issue_list.html', {'issue_list': Issue.objects.filter(project=pk)})
 
 
 def create_issue(request):
