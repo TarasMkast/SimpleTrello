@@ -1,4 +1,5 @@
 from django.db import models
+from users.models import User
 
 
 class Issue(models.Model):
@@ -6,6 +7,7 @@ class Issue(models.Model):
     descriptiom = models.CharField(max_length=300, verbose_name='Опис задачі')
     status = models.CharField(max_length=30, verbose_name='Статус')
     create_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата створення')
+    user = models.ManyToManyField(User)
 
     class Meta:
         verbose_name = 'Завдання'
